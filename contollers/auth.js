@@ -14,10 +14,8 @@ export const register = async (req, res) => {
         location,
         occouption,
       } = req.body
-    
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);//password will be safe and don't watch
-
     //   for berification
     const newUser = new User({
         firstName,

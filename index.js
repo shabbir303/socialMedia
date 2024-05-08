@@ -9,8 +9,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import cors from "cors";
 import {register} from "./contollers/auth.js";
+import {createPost} from "./contollers/post.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
+import postRoutes from "./routes/post.js";
+import { verifyToken } from "./middleware/auth.js";
 
 /* configuration */
 const __fileName = fileURLToPath(import.meta.url);
@@ -40,10 +43,12 @@ const upload = multer({storage});
 
 /* Routes with files */
 app.post("/auth/register", upload.single("picture"), register); //upload.single("picture") is a middleware
+app.post("/post", verifyToken, upload.single("picture"), createPost);
 
 // Routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/post", postRoutes);
 
 /* Database Connection
 shabbir
